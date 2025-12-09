@@ -1,0 +1,406 @@
+# Casino - Gemini Rules
+
+## Project Overview
+
+**Casino** is a modern web-based gambling entertainment platform where users can create accounts, receive an initial balance, spin a bonus wheel, and play various gambling games. The application features a sleek, premium aesthetic with smooth animations and a cohesive color palette.
+
+## Documentation
+
+> [!IMPORTANT]
+> Always reference the `plan/` folder for project context and implementation details before making changes.
+
+| Document | Purpose |
+|----------|---------|
+| [PROJECT_CONTEXT.md](plan/PROJECT_CONTEXT.md) | Vision, features, technical decisions, design philosophy |
+| [plan.md](plan/plan.md) | Step-by-step implementation roadmap with checkboxes |
+
+When implementing features:
+1. Check `plan/plan.md` for the current phase and task status
+2. Reference `plan/PROJECT_CONTEXT.md` for design decisions and constraints
+3. Update checkboxes in `plan/plan.md` as tasks are completed
+4. Add additional plan files in `plan/` for complex features (e.g., `plan/slots-game.md`)
+
+## Tech Stack
+
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| React | 19.2 | UI Library |
+| Next.js | 16.0.7 | Full-stack Framework (App Router) |
+| TypeScript | Latest | Type Safety |
+| Tailwind CSS | v4 | Styling |
+| shadcn/ui | Latest | Component Library |
+| Framer Motion | Latest | Animations |
+| SQLite | Latest | Database |
+| Prisma | Latest | ORM |
+
+## Project Structure
+
+```
+casino/
+├── src/
+│   ├── app/                    # Next.js App Router
+│   │   ├── (auth)/             # Authentication routes
+│   │   │   ├── login/
+│   │   │   └── register/
+│   │   ├── (game)/             # Game routes
+│   │   │   ├── slots/
+│   │   │   ├── roulette/
+│   │   │   ├── blackjack/
+│   │   │   └── wheel/
+│   │   ├── api/                # API Routes
+│   │   │   ├── auth/
+│   │   │   ├── games/
+│   │   │   ├── user/
+│   │   │   └── wheel/
+│   │   ├── layout.tsx
+│   │   └── page.tsx
+│   ├── components/
+│   │   ├── ui/                 # shadcn/ui components
+│   │   ├── games/              # Game-specific components
+│   │   │   ├── SlotMachine.tsx
+│   │   │   ├── RouletteWheel.tsx
+│   │   │   ├── BlackjackTable.tsx
+│   │   │   └── BonusWheel.tsx
+│   │   ├── auth/               # Auth components
+│   │   │   ├── LoginForm.tsx
+│   │   │   ├── RegisterForm.tsx
+│   │   │   └── Captcha.tsx
+│   │   └── layout/             # Layout components
+│   │       ├── Header.tsx
+│   │       ├── Footer.tsx
+│   │       ├── Sidebar.tsx
+│   │       └── BalanceDisplay.tsx
+│   ├── lib/
+│   │   ├── db.ts               # Prisma client
+│   │   ├── auth.ts             # Auth utilities
+│   │   ├── game-logic/         # Game logic
+│   │   │   ├── slots.ts
+│   │   │   ├── roulette.ts
+│   │   │   └── blackjack.ts
+│   │   └── utils.ts
+│   ├── hooks/                  # Custom React hooks
+│   │   ├── useBalance.ts
+│   │   ├── useGame.ts
+│   │   └── useAuth.ts
+│   ├── types/                  # TypeScript types
+│   │   ├── game.ts
+│   │   ├── user.ts
+│   │   └── api.ts
+│   └── styles/
+│       └── globals.css
+├── prisma/
+│   ├── schema.prisma
+│   └── seed.ts
+├── public/
+│   ├── sounds/                 # Game sounds
+│   └── images/                 # Game assets
+├── plan/                       # Project documentation
+│   ├── PROJECT_CONTEXT.md      # Vision & design decisions
+│   └── plan.md                 # Implementation roadmap
+├── .env.local
+├── tailwind.config.ts
+├── next.config.ts
+└── package.json
+```
+
+## Color Palette
+
+The application uses a sophisticated dark theme with oceanic and natural tones.
+
+### Ink Black (Primary Dark)
+| Token | Hex | Usage |
+|-------|-----|-------|
+| ink-black-50 | #ebf6f9 | Light text on dark |
+| ink-black-100 | #d7edf4 | Secondary light text |
+| ink-black-200 | #afdae9 | Muted text |
+| ink-black-300 | #88c8dd | Accent text |
+| ink-black-400 | #60b6d2 | Interactive elements |
+| ink-black-500 | #38a3c7 | Primary accent |
+| ink-black-600 | #2d839f | Hover states |
+| ink-black-700 | #226277 | Active states |
+| ink-black-800 | #164150 | Card backgrounds |
+| ink-black-900 | #0b2128 | Section backgrounds |
+| ink-black-950 | #08171c | Main background |
+
+### Cerulean (Primary Blue)
+| Token | Hex | Usage |
+|-------|-----|-------|
+| cerulean-50 | #eef5f7 | Light highlights |
+| cerulean-100 | #dceaef | Subtle borders |
+| cerulean-200 | #b9d5df | Disabled states |
+| cerulean-300 | #96c1cf | Placeholder text |
+| cerulean-400 | #73acbf | Secondary buttons |
+| cerulean-500 | #5097af | Primary buttons |
+| cerulean-600 | #40798c | Button hover |
+| cerulean-700 | #305b69 | Button active |
+| cerulean-800 | #203c46 | Dark accents |
+| cerulean-900 | #101e23 | Very dark accents |
+| cerulean-950 | #0b1518 | Deepest dark |
+
+### Tropical Teal (Success/Positive)
+| Token | Hex | Usage |
+|-------|-----|-------|
+| tropical-teal-50 | #eff5f5 | Success light bg |
+| tropical-teal-100 | #dfecea | Success border |
+| tropical-teal-200 | #bfd9d5 | Success muted |
+| tropical-teal-300 | #9fc6c1 | Success subtle |
+| tropical-teal-400 | #80b3ac | Success secondary |
+| tropical-teal-500 | #609f97 | Success primary |
+| tropical-teal-600 | #4d8079 | Success hover |
+| tropical-teal-700 | #39605b | Success active |
+| tropical-teal-800 | #26403c | Success dark |
+| tropical-teal-900 | #13201e | Success darkest |
+| tropical-teal-950 | #0d1615 | Success deep |
+
+### Ash Grey (Neutral)
+| Token | Hex | Usage |
+|-------|-----|-------|
+| ash-grey-50 | #f2f4f0 | Light neutral |
+| ash-grey-100 | #e6eae1 | Neutral border |
+| ash-grey-200 | #ccd5c3 | Neutral muted |
+| ash-grey-300 | #b3c0a5 | Neutral subtle |
+| ash-grey-400 | #99aa88 | Neutral secondary |
+| ash-grey-500 | #80956a | Neutral primary |
+| ash-grey-600 | #667755 | Neutral hover |
+| ash-grey-700 | #4d5a3f | Neutral active |
+| ash-grey-800 | #333c2a | Neutral dark |
+| ash-grey-900 | #1a1e15 | Neutral darkest |
+| ash-grey-950 | #12150f | Neutral deep |
+
+### Cornsilk (Gold/Currency)
+| Token | Hex | Usage |
+|-------|-----|-------|
+| cornsilk-50 | #fbf9ea | Gold highlight |
+| cornsilk-100 | #f7f2d4 | Gold light |
+| cornsilk-200 | #eee5aa | Gold muted |
+| cornsilk-300 | #e6d87f | Gold subtle |
+| cornsilk-400 | #ddcb55 | Gold secondary |
+| cornsilk-500 | #d5be2a | Gold primary (currency) |
+| cornsilk-600 | #aa9822 | Gold hover |
+| cornsilk-700 | #807219 | Gold active |
+| cornsilk-800 | #554c11 | Gold dark |
+| cornsilk-900 | #2b2608 | Gold darkest |
+| cornsilk-950 | #1e1b06 | Gold deep |
+
+## Database Schema (Prisma)
+
+```prisma
+model User {
+  id            String   @id @default(cuid())
+  username      String   @unique
+  password      String   // Hashed
+  balance       Float    @default(1000.0) // Initial balance
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  transactions  Transaction[]
+  gameHistories GameHistory[]
+  bonusSpins    BonusSpin[]
+}
+
+model Transaction {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  amount    Float
+  type      String   // "bet", "win", "bonus", "deposit"
+  gameType  String?  // "slots", "roulette", "blackjack", "wheel"
+  createdAt DateTime @default(now())
+}
+
+model GameHistory {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  gameType  String   // "slots", "roulette", "blackjack"
+  betAmount Float
+  result    String   // JSON string of game result
+  payout    Float
+  createdAt DateTime @default(now())
+}
+
+model BonusSpin {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  reward    Float
+  createdAt DateTime @default(now())
+}
+```
+
+## Core Features
+
+### 1. Authentication System
+- Username-based registration (no email required)
+- Basic captcha verification (client-side or simple math captcha)
+- Session management with secure cookies
+- Password hashing with bcrypt
+
+### 2. Initial Balance System
+- New users receive **1000 credits** upon registration
+- Balance displayed prominently in header
+- Real-time balance updates with Framer Motion animations
+
+### 3. Bonus Wheel
+- Available once per day per user
+- Wheel segments with various rewards (50 - 500 credits)
+- Smooth spinning animation with Framer Motion
+- Satisfying sound effects
+
+### 4. Gambling Games
+
+#### Slot Machine
+- 3x3 or 5x3 reel configuration
+- Multiple symbol types with different payouts
+- Spin animation with Framer Motion
+- Configurable bet amounts
+
+#### Roulette
+- European-style single-zero wheel
+- Betting on numbers, colors, odd/even, ranges
+- Spinning ball animation
+- Payout multipliers
+
+#### Blackjack
+- Standard casino rules
+- Hit, Stand, Double Down, Split
+- Dealer AI logic
+- Card dealing animations
+
+## Design Guidelines
+
+### Visual Style
+- **Dark mode by default** with ink-black-950 as base background
+- **Glassmorphism** effects on cards and modals
+- **Gradient accents** using the color palette
+- **Subtle glow effects** on interactive elements
+- **Smooth micro-animations** on all interactions
+
+### Typography
+- **Primary font**: Inter or similar modern sans-serif
+- **Display font**: For headers and game titles (consider a stylish option)
+- **Monospace**: For numbers/currency display
+
+### Animation Principles
+- Use **Framer Motion** for all animations
+- Entry animations: subtle fade + scale
+- Hover effects: scale(1.02-1.05) with glow
+- Button clicks: scale down briefly
+- Number changes: flip/roll animations
+- Game results: celebratory animations for wins
+
+### Component Patterns
+```tsx
+// Example button style
+<Button 
+  className="bg-cerulean-500 hover:bg-cerulean-600 
+             shadow-lg shadow-cerulean-500/25 
+             transition-all duration-200"
+/>
+
+// Example card style
+<Card 
+  className="bg-ink-black-800/80 backdrop-blur-lg 
+             border border-ink-black-700/50 
+             shadow-xl"
+/>
+
+// Example balance display
+<motion.span
+  key={balance}
+  initial={{ y: -20, opacity: 0 }}
+  animate={{ y: 0, opacity: 1 }}
+  className="text-cornsilk-400 font-mono font-bold"
+>
+  ${balance.toLocaleString()}
+</motion.span>
+```
+
+## API Routes Structure
+
+```
+/api/auth/register     POST   - Create new user
+/api/auth/login        POST   - Authenticate user
+/api/auth/logout       POST   - End session
+/api/auth/me           GET    - Get current user
+
+/api/user/balance      GET    - Get user balance
+/api/user/transactions GET    - Get transaction history
+
+/api/wheel/spin        POST   - Spin bonus wheel
+/api/wheel/status      GET    - Check if spin available
+
+/api/games/slots       POST   - Play slots
+/api/games/roulette    POST   - Play roulette
+/api/games/blackjack   POST   - Play blackjack actions
+```
+
+## Development Rules
+
+### Code Quality
+1. Use TypeScript strict mode
+2. All components must be properly typed
+3. Use Zod for API validation
+4. Implement proper error boundaries
+5. Use React Server Components where possible
+6. Optimize for Core Web Vitals
+
+### State Management
+1. Use React hooks for local state
+2. Consider Zustand for global game state
+3. Implement optimistic updates for balance changes
+4. Cache game history with React Query (optional)
+
+### Security Considerations
+1. Never expose game logic that allows manipulation
+2. All game outcomes calculated server-side
+3. Rate limiting on all API endpoints
+4. Input sanitization on all user inputs
+5. CSRF protection on mutations
+
+### Accessibility
+1. Proper ARIA labels on all interactive elements
+2. Keyboard navigation support
+3. Sufficient color contrast ratios
+4. Reduced motion preference support
+
+## Commands
+
+```bash
+# Development
+npm run dev          # Start development server
+
+# Database
+npx prisma generate  # Generate Prisma client
+npx prisma db push   # Push schema to database
+npx prisma studio    # Open Prisma Studio
+
+# Build
+npm run build        # Production build
+npm run start        # Start production server
+
+# Quality
+npm run lint         # ESLint
+npm run type-check   # TypeScript check
+```
+
+## Environment Variables
+
+```env
+# Database
+DATABASE_URL="file:./dev.db"
+
+# Auth
+AUTH_SECRET="your-secret-key-here"
+
+# Optional
+NEXT_PUBLIC_APP_URL="http://localhost:3000"
+```
+
+## Notes for Development
+
+- **Framer Motion**: Use `AnimatePresence` for exit animations, especially on game result screens
+- **Sound**: Consider using Howler.js for game sound effects
+- **Responsive**: Mobile-first approach, games should work on touch devices
+- **Performance**: Lazy load game components, optimize images with next/image
+- **Testing**: Set up Jest + React Testing Library for game logic testing

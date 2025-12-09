@@ -1,26 +1,243 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
+/* ===== CASINO CUSTOM COLOR PALETTE ===== */
 @theme inline {
+  /* System colors */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* shadcn/ui component colors */
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  /* ===== INK BLACK - Primary Dark ===== */
+  --color-ink-black-50: #ebf6f9;
+  --color-ink-black-100: #d7edf4;
+  --color-ink-black-200: #afdae9;
+  --color-ink-black-300: #88c8dd;
+  --color-ink-black-400: #60b6d2;
+  --color-ink-black-500: #38a3c7;
+  --color-ink-black-600: #2d839f;
+  --color-ink-black-700: #226277;
+  --color-ink-black-800: #164150;
+  --color-ink-black-900: #0b2128;
+  --color-ink-black-950: #08171c;
+
+  /* ===== CERULEAN - Primary Blue ===== */
+  --color-cerulean-50: #eef5f7;
+  --color-cerulean-100: #dceaef;
+  --color-cerulean-200: #b9d5df;
+  --color-cerulean-300: #96c1cf;
+  --color-cerulean-400: #73acbf;
+  --color-cerulean-500: #5097af;
+  --color-cerulean-600: #40798c;
+  --color-cerulean-700: #305b69;
+  --color-cerulean-800: #203c46;
+  --color-cerulean-900: #101e23;
+  --color-cerulean-950: #0b1518;
+
+  /* ===== TROPICAL TEAL - Success/Positive ===== */
+  --color-tropical-teal-50: #eff5f5;
+  --color-tropical-teal-100: #dfecea;
+  --color-tropical-teal-200: #bfd9d5;
+  --color-tropical-teal-300: #9fc6c1;
+  --color-tropical-teal-400: #80b3ac;
+  --color-tropical-teal-500: #609f97;
+  --color-tropical-teal-600: #4d8079;
+  --color-tropical-teal-700: #39605b;
+  --color-tropical-teal-800: #26403c;
+  --color-tropical-teal-900: #13201e;
+  --color-tropical-teal-950: #0d1615;
+
+  /* ===== ASH GREY - Neutral ===== */
+  --color-ash-grey-50: #f2f4f0;
+  --color-ash-grey-100: #e6eae1;
+  --color-ash-grey-200: #ccd5c3;
+  --color-ash-grey-300: #b3c0a5;
+  --color-ash-grey-400: #99aa88;
+  --color-ash-grey-500: #80956a;
+  --color-ash-grey-600: #667755;
+  --color-ash-grey-700: #4d5a3f;
+  --color-ash-grey-800: #333c2a;
+  --color-ash-grey-900: #1a1e15;
+  --color-ash-grey-950: #12150f;
+
+  /* ===== CORNSILK - Gold/Currency ===== */
+  --color-cornsilk-50: #fbf9ea;
+  --color-cornsilk-100: #f7f2d4;
+  --color-cornsilk-200: #eee5aa;
+  --color-cornsilk-300: #e6d87f;
+  --color-cornsilk-400: #ddcb55;
+  --color-cornsilk-500: #d5be2a;
+  --color-cornsilk-600: #aa9822;
+  --color-cornsilk-700: #807219;
+  --color-cornsilk-800: #554c11;
+  --color-cornsilk-900: #2b2608;
+  --color-cornsilk-950: #1e1b06;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Casino Dark Theme (Default) */
+:root {
+  --radius: 0.625rem;
+
+  /* Use ink-black as base dark theme */
+  --background: #08171c;
+  --foreground: #ebf6f9;
+
+  /* Cards & Popover - slightly lighter than background */
+  --card: #0b2128;
+  --card-foreground: #ebf6f9;
+  --popover: #0b2128;
+  --popover-foreground: #ebf6f9;
+
+  /* Primary - Cerulean blue */
+  --primary: #5097af;
+  --primary-foreground: #08171c;
+
+  /* Secondary - Ink black lighter */
+  --secondary: #164150;
+  --secondary-foreground: #d7edf4;
+
+  /* Muted */
+  --muted: #164150;
+  --muted-foreground: #88c8dd;
+
+  /* Accent - Tropical teal */
+  --accent: #609f97;
+  --accent-foreground: #08171c;
+
+  /* Destructive - warm red */
+  --destructive: #ef4444;
+
+  /* Border & Input */
+  --border: #22627780;
+  --input: #22627780;
+  --ring: #5097af;
+
+  /* Charts - using our palette */
+  --chart-1: #5097af;
+  --chart-2: #609f97;
+  --chart-3: #d5be2a;
+  --chart-4: #38a3c7;
+  --chart-5: #80956a;
+
+  /* Sidebar */
+  --sidebar: #0b2128;
+  --sidebar-foreground: #ebf6f9;
+  --sidebar-primary: #5097af;
+  --sidebar-primary-foreground: #08171c;
+  --sidebar-accent: #164150;
+  --sidebar-accent-foreground: #ebf6f9;
+  --sidebar-border: #22627780;
+  --sidebar-ring: #5097af;
+}
+
+/* Light theme (optional - casino is dark-first) */
+.light {
+  --background: #eef5f7;
+  --foreground: #0b2128;
+  --card: #ffffff;
+  --card-foreground: #0b2128;
+  --popover: #ffffff;
+  --popover-foreground: #0b2128;
+  --primary: #40798c;
+  --primary-foreground: #ffffff;
+  --secondary: #dceaef;
+  --secondary-foreground: #0b2128;
+  --muted: #dceaef;
+  --muted-foreground: #305b69;
+  --accent: #4d8079;
+  --accent-foreground: #ffffff;
+  --destructive: #dc2626;
+  --border: #b9d5df;
+  --input: #b9d5df;
+  --ring: #40798c;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Custom utility classes for Casino */
+@layer utilities {
+  /* Glassmorphism */
+  .glass {
+    @apply bg-ink-black-800/60 backdrop-blur-xl border border-ink-black-700/50;
+  }
+
+  .glass-card {
+    @apply bg-ink-black-800/80 backdrop-blur-lg border border-ink-black-700/50 rounded-xl shadow-xl;
+  }
+
+  /* Glowing effects */
+  .glow-primary {
+    box-shadow: 0 0 20px theme("colors.cerulean.500 / 30%"),
+      0 0 40px theme("colors.cerulean.500 / 20%");
+  }
+
+  .glow-success {
+    box-shadow: 0 0 20px theme("colors.tropical-teal.500 / 30%"),
+      0 0 40px theme("colors.tropical-teal.500 / 20%");
+  }
+
+  .glow-gold {
+    box-shadow: 0 0 20px theme("colors.cornsilk.500 / 30%"),
+      0 0 40px theme("colors.cornsilk.500 / 20%");
+  }
+
+  /* Text gradients */
+  .text-gradient-gold {
+    @apply bg-gradient-to-r from-cornsilk-300 via-cornsilk-400 to-cornsilk-500 bg-clip-text text-transparent;
+  }
+
+  .text-gradient-ocean {
+    @apply bg-gradient-to-r from-cerulean-400 via-ink-black-400 to-tropical-teal-400 bg-clip-text text-transparent;
+  }
+
+  /* Currency display */
+  .currency {
+    @apply font-mono font-bold text-cornsilk-400;
+  }
 }

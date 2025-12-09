@@ -1,0 +1,59 @@
+// Casino Database Schema
+// SQLite with Prisma ORM
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  password  String   // Hashed with bcrypt
+  balance   Float    @default(1000.0) // Initial balance
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  transactions  Transaction[]
+  gameHistories GameHistory[]
+  bonusSpins    BonusSpin[]
+}
+
+model Transaction {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amount    Float
+  type      String   // "bet", "win", "bonus", "deposit"
+  gameType  String?  // "slots", "roulette", "blackjack", "wheel"
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model GameHistory {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  gameType  String   // "slots", "roulette", "blackjack"
+  betAmount Float
+  result    String   // JSON string of game result
+  payout    Float
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model BonusSpin {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reward    Float
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
