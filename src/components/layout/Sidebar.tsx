@@ -4,6 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/hooks/useAuth";
+import { LogOut } from "lucide-react";
 
 const navItems = [
   { href: "/slots", label: "Slots", icon: "🎰" },
@@ -12,14 +14,14 @@ const navItems = [
   { href: "/wheel", label: "Bonus Wheel", icon: "🎯" },
 ];
 
-const accountItems = [
-  { href: "/dashboard", label: "Dashboard", icon: "📊" },
-  { href: "/login", label: "Login", icon: "🔑" },
-  { href: "/register", label: "Register", icon: "✨" },
-];
-
 export function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
+  const { user, logout } = useAuth();
+
+  const handleLogout = async () => {
+    await logout();
+    setIsOpen(false);
+  };
 
   return (
     <>
@@ -97,12 +99,16 @@ export function Sidebar() {
             </div>
 
             {/* Balance */}
-            <div className="p-4">
-              <div className="glass-card p-4">
-                <p className="text-ink-black-400 text-sm mb-1">Your Balance</p>
-                <p className="currency text-2xl">$1,000</p>
+            {user && (
+              <div className="p-4">
+                <div className="glass-card p-4">
+                  <p className="text-ink-black-400 text-sm mb-1">Your Balance</p>
+                  <p className="currency text-2xl">
+                    ${user.balance.toLocaleString()}
+                  </p>
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Games Section */}
             <div className="p-4">
@@ -128,26 +134,53 @@ export function Sidebar() {
                 Account
               </h3>
               <nav className="space-y-2">
-                {accountItems.map((item) => (
-                  <NavItem
-                    key={item.href}
-                    href={item.href}
-                    icon={item.icon}
-                    label={item.label}
-                    onClick={() => setIsOpen(false)}
-                  />
-                ))}
+                {user ? (
+                  <>
+                    <NavItem
+                      href="/dashboard"
+                      icon="📊"
+                      label="Dashboard"
+                      onClick={() => setIsOpen(false)}
+                    />
+                    <button
+                      onClick={handleLogout}
+                      className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-ink-black-800/50 hover:bg-red-500/10 text-ink-black-200 hover:text-red-400 transition-all group"
+                    >
+                      <span className="text-xl group-hover:scale-110 transition-transform">
+                        <LogOut className="w-5 h-5" />
+                      </span>
+                      <span className="font-medium">Logout</span>
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <NavItem
+                      href="/login"
+                      icon="🔑"
+                      label="Login"
+                      onClick={() => setIsOpen(false)}
+                    />
+                    <NavItem
+                      href="/register"
+                      icon="✨"
+                      label="Register"
+                      onClick={() => setIsOpen(false)}
+                    />
+                  </>
+                )}
               </nav>
             </div>
 
             {/* CTA */}
-            <div className="p-4">
-              <Link href="/register" onClick={() => setIsOpen(false)}>
-                <Button className="w-full bg-cornsilk-500 text-ink-black-950 hover:bg-cornsilk-400 font-bold">
-                  Start Playing
-                </Button>
-              </Link>
-            </div>
+            {!user && (
+              <div className="p-4">
+                <Link href="/register" onClick={() => setIsOpen(false)}>
+                  <Button className="w-full bg-cornsilk-500 text-ink-black-950 hover:bg-cornsilk-400 font-bold">
+                    Start Playing
+                  </Button>
+                </Link>
+              </div>
+            )}
           </motion.aside>
         )}
       </AnimatePresence>

@@ -2,12 +2,12 @@
 // SQLite with Prisma ORM
 
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "sqlite"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -17,7 +17,7 @@ model User {
   balance   Float    @default(1000.0) // Initial balance
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
+  
   transactions  Transaction[]
   gameHistories GameHistory[]
   bonusSpins    BonusSpin[]
@@ -31,7 +31,7 @@ model Transaction {
   type      String   // "bet", "win", "bonus", "deposit"
   gameType  String?  // "slots", "roulette", "blackjack", "wheel"
   createdAt DateTime @default(now())
-
+  
   @@index([userId])
 }
 
@@ -44,7 +44,7 @@ model GameHistory {
   result    String   // JSON string of game result
   payout    Float
   createdAt DateTime @default(now())
-
+  
   @@index([userId])
 }
 
@@ -54,6 +54,6 @@ model BonusSpin {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   reward    Float
   createdAt DateTime @default(now())
-
+  
   @@index([userId])
 }

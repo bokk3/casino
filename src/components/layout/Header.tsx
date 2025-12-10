@@ -2,8 +2,14 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useAuth } from "@/hooks/useAuth";
+import { Button } from "@/components/ui/button";
+import { BalanceChip } from "./BalanceDisplay";
+import { LogOut, User as UserIcon, Loader2 } from "lucide-react";
 
 export function Header() {
+  const { user, isLoading, logout } = useAuth();
+
   return (
     <motion.header
       initial={{ y: -20, opacity: 0 }}
@@ -32,16 +38,39 @@ export function Header() {
 
         {/* Balance & User */}
         <div className="flex items-center gap-4">
-          <div className="glass-card px-4 py-2 flex items-center gap-2">
-            <span className="text-sm text-ink-black-300">Balance:</span>
-            <span className="currency text-lg">$1,000</span>
-          </div>
-          <Link
-            href="/login"
-            className="px-4 py-2 rounded-lg bg-cerulean-500 text-ink-black-950 font-semibold hover:bg-cerulean-400 transition-colors"
-          >
-            Login
-          </Link>
+          {isLoading ? (
+            <Loader2 className="h-5 w-5 animate-spin text-ink-black-400" />
+          ) : user ? (
+            <>
+              <BalanceChip balance={user.balance} />
+              <div className="hidden md:flex items-center gap-2">
+                <span className="text-sm font-medium text-ink-black-200">
+                  {user.username}
+                </span>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => logout()}
+                  className="text-ink-black-400 hover:text-red-400 hover:bg-red-500/10"
+                >
+                  <LogOut className="h-4 w-4" />
+                </Button>
+              </div>
+            </>
+          ) : (
+            <div className="flex items-center gap-2">
+              <Link href="/login">
+                <Button variant="ghost" className="text-ink-black-200 hover:text-cerulean-400">
+                  Login
+                </Button>
+              </Link>
+              <Link href="/register">
+                <Button className="bg-cerulean-500 text-ink-black-950 hover:bg-cerulean-400 font-semibold">
+                  Register
+                </Button>
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </motion.header>
