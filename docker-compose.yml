@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  casino:
+    image: 3bok/casino:latest
+    container_name: casino
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      # You can provide these via a .env file or directly here
+      - DATABASE_URL=file:/app/db/prod.db
+      - THE_ODDS_API_KEY=${THE_ODDS_API_KEY}
+      - AUTH_SECRET=${AUTH_SECRET}
+    volumes:
+      - ./data:/app/db
+    restart: unless-stopped
