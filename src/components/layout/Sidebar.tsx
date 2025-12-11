@@ -11,6 +11,7 @@ const navItems = [
   { href: "/slots", label: "Slots", icon: "🎰" },
   { href: "/roulette", label: "Roulette", icon: "🎡" },
   { href: "/blackjack", label: "Blackjack", icon: "🃏" },
+  { href: "/sports", label: "Sports", icon: "⚽" },
   { href: "/wheel", label: "Bonus Wheel", icon: "🎯" },
 ];
 
