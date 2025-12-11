@@ -53,7 +53,9 @@ export function Reel({ isSpinning, finalSymbol, delay = 0, onSpinComplete, class
 
         // Animate to stop
         // We first spin a bit more to simulate deceleration
-        await new Promise(resolve => setTimeout(resolve, delay * 1000));
+        await new Promise(resolve => {
+          timeout = setTimeout(resolve, delay * 1000);
+        });
         
         await controls.start({
           y: targetY,
